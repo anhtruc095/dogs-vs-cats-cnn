@@ -81,13 +81,18 @@ except Exception:
         # Older API
         model = models.resnet18(pretrained=False)
 
-# Freeze all layers only when using pretrained weights
-for param in model.parameters():
-    param.requires_grad = used_pretrained
+# Freeze backbone only when using pretrained weights
+if used_pretrained:
+    for p in model.parameters():
+        p.requires_grad = False
 
 # Replace last layer for binary classification
 num_ftrs = model.fc.in_features
 model.fc = nn.Linear(num_ftrs, 2)
+
+# Always train the classifier head
+for p in model.fc.parameters():
+    p.requires_grad = True
 
 model = model.to(device)
 
