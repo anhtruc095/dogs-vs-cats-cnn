@@ -9,7 +9,10 @@ A simple but solid CNN to classify images of dogs vs cats using PyTorch. Include
 ```
 .
 ├─ day10_dog_cat_cnn.py   # Main training & inference script
+├─ day9_transfer_learning.py # Transfer learning with ResNet18
 ├─ split_data.py          # Split raw Kaggle folder into train/val/test
+├─ requirements.txt       # Dependencies (NumPy pinned <2)
+├─ LICENSE                # MIT license
 ├─ README.md              # This file
 └─ data/                  # Created by split_data.py (ignored by Git)
    ├─ train/
@@ -30,16 +33,13 @@ Note: Large datasets, zip files, and model artifacts are ignored via `.gitignore
 ## ⚙️ Requirements
 
 - Python 3.8+
-- PyTorch + Torchvision
-- Pillow, NumPy, Matplotlib
+- See `requirements.txt` (NumPy is pinned `<2` for compatibility with some stacks)
 
-Install quickly:
+Install:
 
 ```bash
-pip install torch torchvision pillow numpy matplotlib
+pip install -r requirements.txt
 ```
-
-Or use your preferred environment/manager (conda, uv, pipx, etc.).
 
 ---
 
@@ -61,52 +61,42 @@ This creates `data/train|val|test` with `cats/` and `dogs/` subfolders.
 
 ---
 
-## 🚀 Train
+## 🚀 Train (Day 10 CNN)
 
-By default, `day10_dog_cat_cnn.py` expects a training folder with class subfolders. Recommended:
-
-- Set the `data_dir` to the training folder you want to use, for example:
-  - `data_dir = "data/train"` (after running `split_data.py`), or
-  - point it to another ImageFolder-compatible path.
-
-Start training:
+Set `data_dir` in `day10_dog_cat_cnn.py` (e.g., `data/train`) and run:
 
 ```bash
 python day10_dog_cat_cnn.py
 ```
 
-- Uses GPU if available, otherwise CPU.
-- Trains a small 3-layer CNN for a few epochs.
-- Saves weights to `dog_cat_cnn.pth`.
-
 ---
 
-## ✅ Evaluate
+## 🚀 Train (Day 9 Transfer Learning)
 
-The script automatically evaluates on the held-out split and prints Test Accuracy. It also visualizes a few predictions from the test loader.
+`day9_transfer_learning.py` uses ResNet18. By default it tries pretrained weights; if download fails it trains from scratch and unfreezes the backbone automatically.
 
----
+- Ensure dataset:
+  - train: `data/train/{cats,dogs}`
+  - val: `data/val/{cats,dogs}`
 
-## 🔎 Single-image prediction
+Run:
 
-At the bottom of `day10_dog_cat_cnn.py`, set `img_path` to any JPG and run the script. Example:
-
-```python
-img_path = "data/test/dogs/dog.1.jpg"  # change to your image
+```bash
+python day9_transfer_learning.py
 ```
 
-The script will load the image, run inference, and print the predicted label.
+Notes:
+- For Apple Silicon (MPS) or CUDA, device is auto-selected.
+- Transforms avoid NumPy dependency due to some envs; `requirements.txt` pins NumPy `<2` to be safe.
 
 ---
 
-## 📝 Notes
+## 🔎 Single-image prediction (Day 10)
 
-- If you used the raw Kaggle flat folder, always run `split_data.py` first to build class subfolders.
-- `.gitignore` excludes `data/`, `*.zip`, and `*.pth` to avoid pushing large artifacts.
-- If you see very low accuracy, ensure your `data_dir` points to the folder with `cats/` and `dogs/` subfolders and that transforms are applied correctly.
+At the bottom of `day10_dog_cat_cnn.py`, set `img_path` to your image and run the script.
 
 ---
 
-## 🔗 Repository
+## 📝 License
 
-https://github.com/anhtruc095/dogs-vs-cats-cnn
+MIT — see `LICENSE`.
