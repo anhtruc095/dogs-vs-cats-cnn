@@ -1,0 +1,30 @@
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.env
+.venv/
+venv/
+env/
+
+# Editors/IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data and large artifacts
+/data/
+/dogs-vs-cats/
+*.zip
+*.pth
+*.pt
+
+# Logs
+logs/
+*.log
