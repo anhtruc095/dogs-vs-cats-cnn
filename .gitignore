@@ -21,6 +21,7 @@ env/
 # Data and large artifacts
 /data/
 /dogs-vs-cats/
+dogs-vs-cats-cnn/
 *.zip
 *.pth
 *.pt
